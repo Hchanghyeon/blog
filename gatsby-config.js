@@ -10,15 +10,14 @@
 module.exports = {
   pathPrefix:"/blog",
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `황창구리의 개발 블로그`,
     author: {
-      name: `Kyle Mathews`,
-      summary: `who lives and works in San Francisco building useful things.`,
+      name: `황창현`,
+      summary: `함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다.`,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
+    description: `황창구리의 개발 블로그`,
+    siteUrl: `https://hchanghyeon.github.io/blog/`,
     social: {
-      twitter: `kylemathews`,
     },
   },
   plugins: [
@@ -111,7 +110,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Starter Blog`,
+        name: `황창구리의 개발 블로그`,
         short_name: `Gatsby`,
         start_url: `/`,
         background_color: `#ffffff`,

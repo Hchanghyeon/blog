@@ -8,6 +8,20 @@
 import * as React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
+import styled from "styled-components"
+
+const Summary = styled.div`
+  margin-bottom:10px;
+`
+
+const IconContainer = styled.div`
+  display:flex;
+  justify-content: baseline;
+`
+
+const Icon = styled.div`
+  margin-right:8px;
+`
 
 const Bio = () => {
   const data = useStaticQuery(graphql`
@@ -19,7 +33,7 @@ const Bio = () => {
             summary
           }
           social {
-            twitter
+            github
           }
         }
       }
@@ -36,7 +50,7 @@ const Bio = () => {
         className="bio-avatar"
         layout="fixed"
         formats={["auto", "webp", "avif"]}
-        src="../images/profile-pic.png"
+        src="../images/profile.JPG"
         width={50}
         height={50}
         quality={95}
@@ -44,11 +58,31 @@ const Bio = () => {
       />
       {author?.name && (
         <p>
-          Written by <strong>{author.name}</strong> {author?.summary || null}
-          {` `}
-          <a href={`https://twitter.com/${social?.twitter || ``}`}>
-            You should follow them on Twitter
-          </a>
+          <strong>{author.name}</strong>
+          <Summary>
+            {author?.summary || null}
+            {` `}
+          </Summary>
+          <IconContainer>
+            <Icon>
+              <a href={`https://github.com/${social?.github || ``}`}>
+                <StaticImage
+                  src="../images/github.png"
+                  width={23}
+                  height={23}
+                />
+              </a>
+            </Icon>
+            <Icon>
+              <a href="mailto:changhyeon.h@kakao.com">
+                <StaticImage
+                  src="../images/email.png"
+                  width={23}
+                  height={23}
+                />
+              </a>
+            </Icon>
+          </IconContainer>
         </p>
       )}
     </div>

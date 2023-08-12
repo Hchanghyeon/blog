@@ -4,6 +4,7 @@ import { Link, graphql } from "gatsby"
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import Utterances from "../components/Utternace"
 
 const BlogPostTemplate = ({
   data: { previous, next, site, markdownRemark: post },
@@ -57,6 +58,7 @@ const BlogPostTemplate = ({
           </li>
         </ul>
       </nav>
+      <Utterances/>
     </Layout>
   )
 }
@@ -88,8 +90,9 @@ export const pageQuery = graphql`
       excerpt(pruneLength: 160)
       html
       frontmatter {
+        category
         title
-        date(formatString: "MMMM DD, YYYY")
+        date(formatString: "YYYY년 MM월 DD일")
         description
       }
     }

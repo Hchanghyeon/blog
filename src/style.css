@@ -1,5 +1,10 @@
 /* CSS Custom Properties Definitions */
 
+@font-face {
+  font-family: "NanumSquareNeoR";
+  src: url(/static/fonts/NanumSquareNeoTTF-bRg.woff2);
+}
+
 :root {
   --maxWidth-none: "none";
   --maxWidth-xs: 20rem;
@@ -66,6 +71,7 @@
 :after,
 :before {
   box-sizing: border-box;
+  font-family: "NanumSquareNeoR";
 }
 
 html {
@@ -241,7 +247,7 @@ a:focus {
 .global-wrapper {
   margin: var(--spacing-0) auto;
   max-width: var(--maxWidth-wrapper);
-  padding: var(--spacing-10) var(--spacing-5);
+  padding: var(--spacing-3) var(--spacing-10) var(--spacing-5) var(--spacing-5);
 }
 
 .global-wrapper[data-is-root-path="true"] .bio {

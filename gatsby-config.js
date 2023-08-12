@@ -18,6 +18,7 @@ module.exports = {
     description: `황창구리의 개발 블로그`,
     siteUrl: `https://hchanghyeon.github.io/blog/`,
     social: {
+      github: `Hchanghyeon`,
     },
   },
   plugins: [
@@ -95,6 +96,7 @@ module.exports = {
                     slug
                   }
                   frontmatter {
+                    category
                     title
                     date
                   }

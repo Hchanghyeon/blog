@@ -4,6 +4,50 @@ import { Link, graphql } from "gatsby"
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import styled from "styled-components"
+
+const PostContainer = styled.li`
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: silver;
+  padding-bottom:25px;
+
+  a {
+    color:black;
+    text-decoration: none;
+  }
+  article {
+    transition: .5s ease-in-out;
+  }
+
+  article:hover{
+    transform: scale(1.1);
+  }
+`
+
+const Header = styled.div`
+margin-top:3px;
+  font-size:24px;
+  font-weight: bold;
+  color:black;
+`
+
+const Title = styled.div`
+  font-weight: bold;
+  font-size: 30px;
+`
+
+const Date = styled.div`
+  font-weight: bold;
+  margin-top:10px;
+  font-size: 15px;
+  color:#a0a0a0;
+`
+
+const Category = styled.div`
+font-weight: bold;
+
+`
 
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
@@ -14,9 +58,7 @@ const BlogIndex = ({ data, location }) => {
       <Layout location={location} title={siteTitle}>
         <Bio />
         <p>
-          No blog posts found. Add markdown posts to "content/blog" (or the
-          directory you specified for the "gatsby-source-filesystem" plugin in
-          gatsby-config.js).
+          현재 등록된 포스트가 없어서 내용을 찾을 수 없습니다.
         </p>
       </Layout>
     )
@@ -25,35 +67,41 @@ const BlogIndex = ({ data, location }) => {
   return (
     <Layout location={location} title={siteTitle}>
       <Bio />
+      <Title>
+        포스트
+      </Title>
       <ol style={{ listStyle: `none` }}>
         {posts.map(post => {
           const title = post.frontmatter.title || post.fields.slug
 
           return (
-            <li key={post.fields.slug}>
-              <article
-                className="post-list-item"
-                itemScope
-                itemType="http://schema.org/Article"
-              >
-                <header>
-                  <h2>
-                    <Link to={post.fields.slug} itemProp="url">
-                      <span itemProp="headline">{title}</span>
-                    </Link>
-                  </h2>
-                  <small>{post.frontmatter.date}</small>
-                </header>
-                <section>
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: post.frontmatter.description || post.excerpt,
-                    }}
-                    itemProp="description"
-                  />
-                </section>
-              </article>
-            </li>
+            <PostContainer key={post.fields.slug}>
+              <Link to={post.fields.slug} itemProp="url">
+                <article
+                  className="post-list-item"
+                  itemScope
+                  itemType="http://schema.org/Article"
+                >
+                  <Category>
+                    {post.frontmatter.category}
+                  </Category>
+                  <header>
+                    <h2>
+                      <Header><span itemProp="headline">{title}</span></Header>
+                    </h2>
+                  </header>
+                  <section>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: post.frontmatter.description || post.excerpt,
+                      }}
+                      itemProp="description"
+                    />
+                  </section>
+                  <Date>{post.frontmatter.date}</Date>
+                </article>
+              </Link>
+            </PostContainer>
           )
         })}
       </ol>
@@ -84,7 +132,8 @@ export const pageQuery = graphql`
           slug
         }
         frontmatter {
-          date(formatString: "MMMM DD, YYYY")
+          category
+          date(formatString: "YYYY년 MM월 DD일")
           title
           description
         }

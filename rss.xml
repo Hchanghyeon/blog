@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[황창구리의 개발 블로그]]></description><link>https://hchanghyeon.github.io/blog</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 12 Aug 2023 07:05:06 GMT</lastBuildDate><item><title><![CDATA[📝 프로그래머스 백엔드 데브코스 4기 PRE팀 회고록]]></title><description><![CDATA[PRE…]]></description><link>https://hchanghyeon.github.io/blog/programmers_preteam/</link><guid isPermaLink="false">https://hchanghyeon.github.io/blog/programmers_preteam/</guid><pubDate>Fri, 16 Jun 2023 03:02:03 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[황창구리의 개발 블로그]]></description><link>https://hchanghyeon.github.io/blog</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 14 Aug 2023 08:46:59 GMT</lastBuildDate><item><title><![CDATA[📝 프로그래머스 백엔드 데브코스 4기 PRE팀 회고록]]></title><description><![CDATA[PRE…]]></description><link>https://hchanghyeon.github.io/blog/programmers_preteam/</link><guid isPermaLink="false">https://hchanghyeon.github.io/blog/programmers_preteam/</guid><pubDate>Fri, 16 Jun 2023 03:02:03 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
     &gt;
@@ -223,4 +223,117 @@
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;그전까지 취업준비를 하며 계속되는 서류 탈락, 면접 탈락으로 인해 자존감도 많이 떨어져서 이 과정도 떨어질 것이라 생각했지만 많은 친구들과 지인분들이 분명 합격할거라고 용기를 주셨습니다. 그 결과! 합격할 수 있게 되었어요. 앞으로 5개월 정도의 긴 시간동안 공부에 집중하며 많은 성장을 이뤄내보려고 합니다. 이 과정을 생각하시는분들도 이 글을 보고 꼭 도움을 얻을 수 있으면 좋겠습니다.&lt;/p&gt;
 &lt;p&gt;긴 글 읽어주셔서 감사드립니다 😆&lt;/p&gt;
-&lt;p&gt;궁금하신 사항은 이메일로 연락주시면 답변 가능한 선에서 답변드리도록 하겠습니다.&lt;/p&gt;</content:encoded></item></channel></rss>
+&lt;p&gt;궁금하신 사항은 이메일로 연락주시면 답변 가능한 선에서 답변드리도록 하겠습니다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[JOBDA 디챔스 개발자 역량검사와 개발자 구현 능력 검사 후기]]></title><description><![CDATA[취업 공고를 이것저것 보다가 JOBDA…]]></description><link>https://hchanghyeon.github.io/blog/jobda_decharms/</link><guid isPermaLink="false">https://hchanghyeon.github.io/blog/jobda_decharms/</guid><pubDate>Fri, 07 Apr 2023 03:02:03 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/4d645621739cf7ba541a98240d995478/50383/image.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.32911392405063%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsTAAALEwEAmpwYAAACqklEQVR42gGfAmD9ACQtQA8UGhEaJA8XIREYIRIaJxkiQCIuXyUweCs3iSg2iCo1fiQtZRokRBkhLRohKxgfKhEYIg0VHycrKgAVRsIEHTQQEhoNFiIHEB4MFz8PGk4SH2ETIm8mNo4nN5AXI3ESHmIMF0kTHkUOFiUHDxoMEx0MFCIbNX8AFT7CADyTDhgUFhohFholEBYvCxM2JzZiUGFwFkA0DjgrUGJyJDVfSUyIPj9qAAQNDhUgEBEPACteFUraAKCe3C5KpgAoXgQPKQ4WOB0liz9LpWRvf4WJlU9tbU1uao+QkXuDkExcpik4kg4WPQYHCwUhNQA6sRY1jwBZWm8xMEsKESEKFjcWIl1TY+daacN3jdBvieaQndemsOSTp+uBltdAU6QqQ9oUIF8EFDAEJlcAC0gZHzoAFS1+AAUbDREZDRIlEhtQQFPIW3XfPVWYHz6HGTmGHj2IFzmJM0+XW3DlMUTHDhhNCxMtCgwSAAUoGx5GABZSwwIRNAMIJQcRNhEcWxwtmT9RuFZsuUhjsVBz1T1kz0hkuFhutFRbzCgwqBQhYxEYMxAUIg8SOigtTgAYOHoAHF8EBikFDjMRHGIlN7ePmN7DxeDY2+7V2/OyvObT1eq7v9uMk981RcAOGnIIDUQGCTMBIl8ZN4EAHSY9BRY5CBMiBRQyBxpVGDGUWnDYprLzvcPrys7y19r4rrfvf4ztTVzTGCaCCxRZCRRFBy5gADJiGTaEABVE0QA5zAU5iQUpWwchRQoeRAYnciFBpEZYo2h4t2d3tzNHpA4znwwiaAoXPQgZSQQmdAI5tQA4wxZFxQBGQ9snK74IFjwIGEUFK5cDOJMHM2gJFCgJFSkIFi8JFi8OGCkOHi8HKmcGI3AJFCoKERsGEicQGXE1O6f2u7n4YPZhuQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;잡다{&amp;quot;originWidth&amp;quot;:740,&amp;quot;originHeight&amp;quot;:418,&amp;quot;style&amp;quot;:&amp;quot;alignCenter&amp;quot;}&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/4d645621739cf7ba541a98240d995478/f058b/image.png&quot;
+        srcset=&quot;/blog/static/4d645621739cf7ba541a98240d995478/c26ae/image.png 158w,
+/blog/static/4d645621739cf7ba541a98240d995478/6bdcf/image.png 315w,
+/blog/static/4d645621739cf7ba541a98240d995478/f058b/image.png 630w,
+/blog/static/4d645621739cf7ba541a98240d995478/50383/image.png 740w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;취업 공고를 이것저것 보다가 JOBDA라는 채용 플랫폼에서 스펙과 전공 무관하게 개발자 역량검사와 개발자 구현 능력 검사를 통해 회사를 매칭해 준다는 글을 보고 취업준비를 하는 저에게 어느 정도 도움이 될 것 같아서 신청 후 검사해보았습니다!&lt;/p&gt;
+&lt;p&gt;여기에서 얘기하는 것을 간단하게 설명드리면 스펙과 전공을 보지 않고 해당 플랫폼에서 제공하는 &lt;strong&gt;개발자 역량검사와 개발자 구현 능력 검사&lt;/strong&gt; 이 2가지 만을 보고 점수가 높을수록 더 많은 기업 추천을 해주는 시스템 같았습니다.&lt;/p&gt;
+&lt;p&gt;기간은 &lt;strong&gt;4/16(일) 23:30분까지&lt;/strong&gt;이니 관심 있으신 분들은 해보시는 것도 좋을 것 같아요!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;[관련 사이트]&lt;/strong&gt;
+&lt;a href=&quot;https://www.jobda.im/position/2251/jd&quot; title=&quot;잡다 디챔스&quot;&gt;JOBDA 디챔스&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;개발자 AI 역량검사&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;1. 성향파악&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;신속하게 본인과 가까운 성향을 선택하는 것이었습니다.
+약간 인성 검사, 성격 유형 검사 같은 건데 굉장히 빠른 시간 내에 본인에 알맞은 것을 선택해야했습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 전략게임&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;가위바위보, 대중교통 연결하기, 고양이 찾기 등 다양한 게임이 있는데 별거 아니라 생각했지만 생각보다 힘들었던 것 같아요! 모든 전략게임들이 빠른 시간 내에 해결해야 하는 문제이다 보니 시간에 엄청 쫓기게 되는데 그 시간 동안 엄청난 집중을 해야 해서 더 힘들었던 것 같습니다. 모든 게임은 시작 전 체험이 가능하니 사이트에서 직접 체험해 보고 연습한 다음 진행하는 것이 고득점을 맞는데 도움이 될 것 같아요!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. 영상면접&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;처음에 호기심으로 시작하다 보니 뭐가 있는지도 모르고 검사를 눌러서 마지막을 보니 영상면접이 있었습니다. 영상면접이라는 단어를 보고 &quot;아 망했다. 준비한게 없는데 어떻게 하지?&quot;라고 생각이 들더라구요. 영상면접은 프로그램에서 질문을 주면 30초 동안 시간을 주고 나머지 주어진 시간 동안 대답을 하는 면접이었습니다. 실제 면접관이 있는 것이 아니기 때문에 조금 더 편하게 할 수 있었는데 아무래도 준비하지 않고 해서 그런지 대답은 자연스럽게 했어도 내용의 질이 많이 떨어졌던 것 같습니다.&lt;/p&gt;
+&lt;p&gt;이렇게 3가지에 대해서 검사하고 약 40분 정도 소요되었습니다.
+검사 결과는 길면 하루 뒤에 나온다고 하는데 저는 1~2시간 뒤에 나왔습니다!!&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/23d0d58937c2af2980814495e99e586f/0a867/image-1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 90.50632911392405%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAIAAADUsmlHAAAACXBIWXMAAAsTAAALEwEAmpwYAAACf0lEQVR42oWS22sTQRTG928ULOKf0Ie+K6KIzxWkWCjqg6htffBBUftQhZC0wV6IL2nTJpa2kSS7uczOTnZu58xFZrfGWqh+fOwO7Pzm23PORPMLCzduzs3dur30dFkpNRyO05TK/0kIAQDRp88ba+tvV9fWt+p1xthkQghJU0qvmKRpmhZPGkTSNOc8stb662W958EOvYNgP3UuA7DeW2sjQASAPM+FEJcPcs5557Q1IwRqfV30l0h9Xw1y62IlwZgAe+8ZY9VqtVKpdLtdpRTnnDGGiN57dGZsPIOz3Xznmx++ODw+6AvmLVrrSlhK2Ww2W61Wu93u9Xqnp6edTkdKWcA20Sbjm1K1JpN8Y3ewuh1TixhYGzkXXlmWhTYQwhiTUpaxJTyxPsM+UScT0LUf6UHCp7Pksk4sZAr9qdl7cJYY7Bn7NWUfeqQ6ZUNniDF/wdfJOEcRUtQJ6Bh0rDVFZAZt8b/RLBDR/F5eEhoXCnMGTagUEcN4sNiPUXFh1HXWGs675/04NhpRGwNGa9AahJBK6ajcAYCFofymlFZKSxEafufew/uPH3VZ8pOPxnYapu+cCJSOtIY0pYeHh43G96OjYylVeWqwVICm1Tw5PmgJB1ROmeJlgJzBhKS12tb2dn1vb7/RaLTbnTJcSOWtn19+cPfl4oiMR4LmVhUDthewUppzEcdJkgzjOBkM4sEgpjQrj7doP1Y2v+zUcq9jQUYyCyUCihkshMwyxtiU0izLWJ7z6TSfJS++Wll595pSyiSH4nYYYy6SpVQqLOCKQ8MK+Mmb58/erw6BnolkoImxpoRDt4WQ/zDnwkCYkBJKc6W4zHOe55xzIaX6BRkD89tW7FTtAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;잡다1{&amp;quot;originWidth&amp;quot;:986,&amp;quot;originHeight&amp;quot;:894,&amp;quot;style&amp;quot;:&amp;quot;alignCenter&amp;quot;,&amp;quot;filename&amp;quot;:&amp;quot;스크린샷 2023-04-09 오후 1.36.38.png&amp;quot;}&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/23d0d58937c2af2980814495e99e586f/f058b/image-1.png&quot;
+        srcset=&quot;/blog/static/23d0d58937c2af2980814495e99e586f/c26ae/image-1.png 158w,
+/blog/static/23d0d58937c2af2980814495e99e586f/6bdcf/image-1.png 315w,
+/blog/static/23d0d58937c2af2980814495e99e586f/f058b/image-1.png 630w,
+/blog/static/23d0d58937c2af2980814495e99e586f/40601/image-1.png 945w,
+/blog/static/23d0d58937c2af2980814495e99e586f/0a867/image-1.png 986w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;검사 결과는 Very Good! 조금 걱정했는데 생각보다 잘 나온 것 같아서 다행인 것 같아요 ㅎㅎ!!&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;개발 구현 능력 검사&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;개발 구현 능력 검사는 일반 코딩테스트랑 비슷하나 살짝 달랐습니다. Basic, Intermediate, Advanced 3가지로 나뉘는데 처음 검사하는 경우 Basic이랑 Intermediate 2개 중에서 선택해서 검사할 수 있었습니다. 저는 처음이니 Intermediate를 시험 보았고 문제는 밝힐 수 없으나 문제가 점점 확장되는 방식이었습니다. 1시간 30분 동안 3문제를 푸는데 마지막 문제에서 시간이 부족해서 다 풀지는 못했어요. 분명 풀 수 있는 문제 같았는데 그 전 두 번째 문제에서 실수를 해서 20분을 낭비해서 너무 아쉬웠습니다. 그리고 개발 구현 능력 검사는 바로 결과가 나와요!&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/4774de1ff3d843dde8301952ccfb4554/58213/image-2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.9493670886076%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAIAAABr+ngCAAAACXBIWXMAAAsTAAALEwEAmpwYAAABm0lEQVR42pWS3Y7TQAyF+448D0/CBc+AEO+AxAXsEoRExe6qzU+3mzSdZJL58bENM11KCeWCI2s0F/7sY9krZhYRVZX/VAhxpaoA2rYlgv4pKENZVPSaEiyqzGyMAbCofc4TEQDeB+cDM1/AvzwDfEmy8Dv75bV5f+sqVZ2d35T1pqxjpCXMzMBzScnjg/nl9u2L9as3hxtVnZwrq6asmkh0pTMzex+OZhitzY1l3JvDtvXDrKru3PkqLCJmGB82ZbPb51pS75/uNtvjMCbY+23VbKuG/gUPw7gp6+bx6WRk33ZlvTMZTjNn+MrMeWwJkaydnPOSF3To+qqs58mpKBM7O8/znM9ClvBJxCBBEPIa+9k0x30fhh62w1jFfpjtNE2nzS/hvCEhQUxB6VXMHCzcCHdk52IIPvy2HWOkCyGCiVMgRSqWI/2TKwA4ZXofVqfbPmuCG2gy0R7J9tZ0XdcdDm3Xjdbq37e9sP3Qlp+rb18fvxe79Yfi482n2/V6XRTF3f09gOVtX3ZO7p6dAwSKEQBnEdHC40/4ByPTaHkEG5GcAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;잡다3{&amp;quot;originWidth&amp;quot;:902,&amp;quot;originHeight&amp;quot;:687,&amp;quot;style&amp;quot;:&amp;quot;alignCenter&amp;quot;,&amp;quot;filename&amp;quot;:&amp;quot;스크린샷 2023-04-09 오후 1.47.47.png&amp;quot;}&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/4774de1ff3d843dde8301952ccfb4554/f058b/image-2.png&quot;
+        srcset=&quot;/blog/static/4774de1ff3d843dde8301952ccfb4554/c26ae/image-2.png 158w,
+/blog/static/4774de1ff3d843dde8301952ccfb4554/6bdcf/image-2.png 315w,
+/blog/static/4774de1ff3d843dde8301952ccfb4554/f058b/image-2.png 630w,
+/blog/static/4774de1ff3d843dde8301952ccfb4554/58213/image-2.png 902w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;시험 결과는 걱정했던거와 달리 Intermediate에서 제일 높은 등급인 High 등급을 받았습니다! 지금까지 코테 문제를 꾸준히 연습하면서 실력이 좋아지고 있는 게 맞는가 싶었는데 정확한 판단법은 아니지만 조금은 나아졌다는 것을 증명할 수 있는 자료 같아서 기분이 좋았습니다. 다음 주 토요일에도 있는데 시간이 난다면 Advanced도 다시 한번 검사해 보려구요!&lt;/p&gt;
+&lt;p&gt;이 시험을 다 치르고 보니 고등학교 졸업 후 바로 대기업에 취직했을 때 인적성 검사를 보던 게 기억이 났습니다. 비슷한 느낌인데 확실히 기술이 발전하니 이렇게 AI로도 전부 다 처리할 수 있다는 게 너무너무 신기했습니다. 신입으로 개발자를 지원하시는 분들이라면 실력 테스트 차원에서 해보는 것도 정말 좋은 기회가 될 것 같습니다!&lt;/p&gt;</content:encoded></item></channel></rss>

@@ -1,4 +1,599 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[황창구리의 개발 블로그]]></description><link>https://hchanghyeon.github.io/blog</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 14 Aug 2023 08:59:28 GMT</lastBuildDate><item><title><![CDATA[📝 프로그래머스 백엔드 데브코스 4기 PRE팀 회고록]]></title><description><![CDATA[PRE…]]></description><link>https://hchanghyeon.github.io/blog/programmers_preteam/</link><guid isPermaLink="false">https://hchanghyeon.github.io/blog/programmers_preteam/</guid><pubDate>Fri, 16 Jun 2023 03:02:03 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[황창구리의 개발 블로그]]></description><link>https://hchanghyeon.github.io/blog</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 19 Aug 2023 11:23:45 GMT</lastBuildDate><item><title><![CDATA[서버 접속이 안될 때 해볼 수 있는 tcpdump를 이용한 트러블 슈팅 방법]]></title><description><![CDATA[혹시 여러분들도 위와 같은 일들을 겪어 보신적이 있으신가요? 저는 위와 같은 일들을 많이 겪어봤고, 학교를 다니기 전 보안 회사에서 UTM…]]></description><link>https://hchanghyeon.github.io/blog/tcpdump/Tcpdump/</link><guid isPermaLink="false">https://hchanghyeon.github.io/blog/tcpdump/Tcpdump/</guid><pubDate>Sat, 19 Aug 2023 03:02:03 GMT</pubDate><content:encoded>&lt;h2&gt;&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;markdown&quot;&gt;&lt;pre class=&quot;language-markdown&quot;&gt;&lt;code class=&quot;language-markdown&quot;&gt;&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; ❌ 아니! 분명 AWS에 EC2를 생성해서 ssh를 오픈했는데 왜 접속이 안되나요?
+&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; ❌ 외부 환경에서 IDC에 있는 회사 서버에 접속이 안되요!
+&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; ❌ 집 로컬 환경에서 서버를 열어두었는데 외부에서 집에 있는 서버가 접속이 안되요!&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;혹시 여러분들도 &lt;strong&gt;위와 같은 일들을 겪어 보신적이 있으신가요?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;저는 위와 같은 일들을 많이 겪어봤고, 학교를 다니기 전 보안 회사에서 &lt;strong&gt;UTM이라는 방화벽 장비를 다루며 고객사에서 위와 같은 문제들로 인해 직접 트러블 슈팅한 경험&lt;/strong&gt;이 많았었습니다.&lt;/p&gt;
+&lt;p&gt;저는 그때마다 가장 먼저 확인해보는 것이 있는데요! 그것은 바로 &lt;strong&gt;네트워크 패킷&lt;/strong&gt;입니다. 위에서 말하는 &lt;strong&gt;접속&lt;/strong&gt;이라는 것은 결국 &lt;code class=&quot;language-text&quot;&gt;출발지&lt;/code&gt;에서 &lt;code class=&quot;language-text&quot;&gt;목적지&lt;/code&gt;로 접속한다라는 것으로 결국 접속할 때는 &lt;code class=&quot;language-text&quot;&gt;출발지&lt;/code&gt;에서 &lt;code class=&quot;language-text&quot;&gt;목적지&lt;/code&gt;로 &lt;strong&gt;접속을 위한 패킷을 보내게 됩니다&lt;/strong&gt;. 이것은 단순히 SSH 접속뿐만이 아니라 &lt;strong&gt;HTTP 접속, MySQL의 서비스 포트인 3306 포트를 접속할 때도 적용되며 대다수의 서비스에 적용&lt;/strong&gt;된다고 보시면 될 것 같아요.&lt;/p&gt;
+&lt;p&gt;그럼 &lt;strong&gt;트러블 슈팅하는 방법을 배우기전에 알아두면 좋은 내용&lt;/strong&gt;에 대해서 먼저 간단하게 말씀드리고 넘어가도록 하겠습니다.&lt;/p&gt;
+&lt;h3&gt;기본적인 네트워크 환경&lt;/h3&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/c1fad791200d0974a71472a28f8e5803/8698d/image-2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 38.60759493670886%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA40lEQVR42m1SSaqEUBDz/ufxBq5cqqjgRjeCuhDEeawm9cmjfreB0FW8mJrakxc8zyP7vstxHBqf5+l4XZeSMfUg4H0bARD3fS/LskjXdfoh3+Z51mLUgRaedScoWtdVoiiSbducJssyqeta4/u+tRh0oBpWVaUJHoqiUDFGTdNUpmlyRZIkkWEYXA5d27aqDYJAfN//M4zj2I0UhqE0TaM5OoEhRkaHMMAKUJw5tAAawSQ/O8QIAKoiRpE8z2UcR6cpy1JJPdbz7yh2f/Yo7JrG9pex1b1e2YJ/jTfyjRPZK38Ahaxuq+sC/bgAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/c1fad791200d0974a71472a28f8e5803/f058b/image-2.png&quot;
+        srcset=&quot;/blog/static/c1fad791200d0974a71472a28f8e5803/c26ae/image-2.png 158w,
+/blog/static/c1fad791200d0974a71472a28f8e5803/6bdcf/image-2.png 315w,
+/blog/static/c1fad791200d0974a71472a28f8e5803/f058b/image-2.png 630w,
+/blog/static/c1fad791200d0974a71472a28f8e5803/40601/image-2.png 945w,
+/blog/static/c1fad791200d0974a71472a28f8e5803/8698d/image-2.png 1239w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;보통 일반적인 네트워크 환경을 보면 집 PC에서 공유기를 통해 외부 인터넷에 접속하고 목적지인 서버에 접속하는 방식으로 이루어져있습니다. 외부 인터넷은 &lt;strong&gt;수 많은 라우터가 서로 연결되어 있는 형태로 집에 있는 PC와 서버가 연결&lt;/strong&gt;될 수 있는거죠! 그렇다면 서로 어떤 방식으로 통신하는 걸까요?&lt;/p&gt;
+&lt;h3&gt;IP가 포함된 네트워크 환경&lt;/h3&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/6b41fb145e847615d0eab80ec15507ce/7830c/image-3.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 41.139240506329116%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA+0lEQVR42nVRSQqEQAzs/7/Ed3gX8aQHt4OKG7jvS4YKpBllJhDSnaQqlW5FX3bft47XddF5nhzlLC734zgeGJiiH4biMAxUliX1fU9d19G+77RtGy3LQuM46vO6rg+sAhiOQl3XHKuqonmeuSGKInaxpmnIdV09GP1QDLVM2LYtFUXBhTRNybZtJkyShOI41qtgWBAEmgTq0I/Vfd8nwzBYucrznDzPYxDILcvi9ZAPw5CVIo/VsyxjQpDhDpz0mqbJeYVpKMIgHW8D+fI2UAsFYtM0keM4rEzIgYE65P5+CpS9f1XOGIgIdSB8/LJ8ytsAgMpfDkUS39gP/bJsYnYqaUkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/6b41fb145e847615d0eab80ec15507ce/f058b/image-3.png&quot;
+        srcset=&quot;/blog/static/6b41fb145e847615d0eab80ec15507ce/c26ae/image-3.png 158w,
+/blog/static/6b41fb145e847615d0eab80ec15507ce/6bdcf/image-3.png 315w,
+/blog/static/6b41fb145e847615d0eab80ec15507ce/f058b/image-3.png 630w,
+/blog/static/6b41fb145e847615d0eab80ec15507ce/40601/image-3.png 945w,
+/blog/static/6b41fb145e847615d0eab80ec15507ce/78612/image-3.png 1260w,
+/blog/static/6b41fb145e847615d0eab80ec15507ce/7830c/image-3.png 1345w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+서로 통신하기 위해서는 &lt;strong&gt;별도의 주소&lt;/strong&gt;를 가지고 있어야합니다. 저희가 네이버 지도 앱을 켜서 목적지로 갈 때 출발지와 목적지를 입력하듯 네트워크 통신도 마찬가지로 각 장비마다 별도의 고유 주소가 필요하며 출발지 주소에서 목적지 주소를 바라보고 경로를 탐색해서 찾아가게 됩니다. &lt;strong&gt;네트워크에서는 그 고유한 주소를 IP&lt;/strong&gt;라고 불러요!&lt;/p&gt;
+&lt;p&gt;예를 들어 &lt;strong&gt;192.168.0.100&lt;/strong&gt;이라는 집 PC에서 &lt;strong&gt;123.122.111.100&lt;/strong&gt;이라는 외부 웹서버를 접속한다고 가정해보겠습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;markdown&quot;&gt;&lt;pre class=&quot;language-markdown&quot;&gt;&lt;code class=&quot;language-markdown&quot;&gt;&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; 192.168.0.100인 집 PC에서 웹 브라우저로 123.122.111.100이라는 웹서버에 접속합니다.
+(실제로는 도메인을 입력하는 경우가 많겠죠? 하지만 도메인도 실제로는 모두 IP로 이루어져있답니다!)
+
+&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; 그럼 이때 192.168.0.100이라는 집 PC(출발지)에서 패킷을 만들어 공유기의 Gateway인 192.168.0.1로 보내게 되고, 집 PC IP였던 192.168.0.100을 223.194.166.251이라는 외부 IP로 변환시켜 외부 인터넷으로 전달하게 됩니다.(내부 PC의 IP를 공유기의 외부 IP로 변환하는이유는 NAT에 대해서 찾아보시면 좋을 것 같아요.)
+
+&lt;span class=&quot;token list punctuation&quot;&gt;2.&lt;/span&gt; 이때 패킷에는 목적지 IP가 담겨 있는데 이 목적지 IP를 활용하여 라우터들이 계속 경로 설정을 하여 123.122.111.100이라는 서버에 도달 할 수 있게 해줍니다.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게 간략하게 IP를 통해 네트워크에서 서버와 클라이언트가 어떤식으로 서로 통신하는지에 대해서 알 수 있었는데요. 여기서 중요한 것은 2번에 나왔던 &lt;strong&gt;패킷&lt;/strong&gt;입니다. 네트워크에서 말하는 패킷은 &lt;strong&gt;컴퓨터 네트워크에서 전달하는 데이터의 형식화된 블록&lt;/strong&gt;입니다. 즉 클라이언트인 192.168.0.100 PC에서 웹 서버인 123.122.111.100 서버로 웹 페이지를 요청할 때 페이지를 받아오는 과정, 요청하는 과정 등 서로 통신을 해야하고 이 통신에 송신, 수신되는 데이터가 바로 패킷이라고 볼 수 있습니다.&lt;/p&gt;
+&lt;h3&gt;3way Handshake&lt;/h3&gt;
+&lt;p&gt;지금까지 IP를 통해 서로 통신하고 통신할 때는 패킷을 이용하여 데이터를 송, 수신 받는다고 했습니다. 근데 이 통신을 하기 위해서 그냥 패킷을 보내고 받으면 끝이 아닐까? 생각이 들 수도 있겠지만 실제로는 3way Handshake라는 과정을 통해 먼저 클라이언트와 서버가 연결되어있는지 확인하는 과정이 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 492px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/d5030f6f1a0b186be9f43c9ee712680a/5c6e9/image-4.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 44.93670886075949%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB5ElEQVR42mVRT08TcRB9sLiYRk1QbFKpF6PxzoFDY9ieoPZDFD+DeNEjiYJEIkqk7Vb+2cZKsMVaQxNOaln62w1teqBQwwm7bSK1GkjTLGx3x2xbvfgyh5nDm5n3Hk60k0wpw1SmqIpUkopHRSJqGk3d0NtlmAa1UPhRkEqSoipMZUxl9dM6tr5vIQCI4EIcXsGbuEtE/whttEchJmAenMhBBILIVrItchD8Um9f+DL88Hz0ENELefb+l/FnOzP3NsYi+Yiu6aSTe90NP/rCV84t8hCRq+QglSQE4IgODH26gyBGE6PUpLXC2oQ04c8HHn5+lCwmiUhv6MK6ABFDSZcj6uyQ25e5Bc62bEMQrojr7PfZ5rdN38bYZHb6SfbpYzZZ+1WjUxLiAoK4uHKJX+IRar2dPvza+/p8f8TeH7b3LPIj8RFqUGwv9lyejRZWp6SpVDHVqDcMzXDH3ZbmkKW5W+y2LqcP0z0hfiB6/dpbp235gidhaZ7bmRtPP5jOzfhSvjf58HHtWKtrw++H4e+Qu8Suv4bNw1oZ4PAS3g/e/92u/qwe7B0MLgw6os4b727dXL19dcWuqAqsnNUMKzNWliVV2q/uWzmbTcM0TDI7jWmSSbtHu9vqtlJR5IrMylbOfwCsqFCW2By4EAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/d5030f6f1a0b186be9f43c9ee712680a/5c6e9/image-4.png&quot;
+        srcset=&quot;/blog/static/d5030f6f1a0b186be9f43c9ee712680a/c26ae/image-4.png 158w,
+/blog/static/d5030f6f1a0b186be9f43c9ee712680a/6bdcf/image-4.png 315w,
+/blog/static/d5030f6f1a0b186be9f43c9ee712680a/5c6e9/image-4.png 492w&quot;
+        sizes=&quot;(max-width: 492px) 100vw, 492px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;[출처 geeksforgeeks]&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3way handshake과정&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;markdown&quot;&gt;&lt;pre class=&quot;language-markdown&quot;&gt;&lt;code class=&quot;language-markdown&quot;&gt;&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; SYN : 클라이언트가 서버와의 연결을 위해 SYN이라는 플래그를 보내어 연결 요청을 보냅니다.
+&lt;span class=&quot;token list punctuation&quot;&gt;2.&lt;/span&gt; SYN/ACK : 서버가 클라이언트의 연결 요청을 받아 연결할 수 있다고 판단되면 SYN/ACK 플래그를 클라이언트에게 보내줍니다.
+&lt;span class=&quot;token list punctuation&quot;&gt;3.&lt;/span&gt; ACK : 클라이언트는 서버의 응답을 확인하고 둘 다 실제 데이터 전송을 시작할 안정적인 연결을 설정합니다.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;다시 정리해보면 클라이언트에서 서버로 접속할 때 IP를 이용하여 통신을 하는데 그때 패킷을 통해 데이터를 전송하게되고 통신을 연결하기 전 3way Handshake를 통해 연결 요청을 확인할 수 있다라고 볼 수 있습니다. 이때 3way Handshake도 클라이언트가 SYN 패킷을 서버로 보내고, 서버가 SYN/ACK 패킷을 날리며 3way Handshake도 결국 패킷을 이용한 통신중에 하나로 볼 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/40688ca9fbdf410636f57b870c8e5ba4/07d37/image-5.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 37.34177215189873%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABD0lEQVR42l1Ry46DMBDj/z+H2/bMJ2wPRTwEFAJLgIAob3DlVEFsR7JCwHg8HgtfdRyHPvu+R9u22Pcd67pimibM84xt2zT4TJBvwLKMkCFSgEQKLssC13VR1/XZUEqpwSKXnGtZ7EwHSinEcQwhBJIkQdd1+n2e5xiGQYM/855lmXZEA+REUYQwDD+CvPhBgEZ1eDxcOI6jP9zvv/A87+xMp+SaStMUvu9jHCfcfm6wbfsjWBQFskygfw2om+YcR8pKw/cDpM/nv5EpPI4jZFWj+CuRCaGd07VlsrsWs3kNI1TboSylHp+ZV3UDkRegCcNj3jypoQXP7X5tmnkxH9OQWSvV6hH53WyZYtelvAHwNRvCi99CRAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/40688ca9fbdf410636f57b870c8e5ba4/f058b/image-5.png&quot;
+        srcset=&quot;/blog/static/40688ca9fbdf410636f57b870c8e5ba4/c26ae/image-5.png 158w,
+/blog/static/40688ca9fbdf410636f57b870c8e5ba4/6bdcf/image-5.png 315w,
+/blog/static/40688ca9fbdf410636f57b870c8e5ba4/f058b/image-5.png 630w,
+/blog/static/40688ca9fbdf410636f57b870c8e5ba4/40601/image-5.png 945w,
+/blog/static/40688ca9fbdf410636f57b870c8e5ba4/78612/image-5.png 1260w,
+/blog/static/40688ca9fbdf410636f57b870c8e5ba4/07d37/image-5.png 1790w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;그럼 통신을 위해 가장 먼저 발생되는 것이 SYN 패킷인거고 저희는 이 &lt;strong&gt;SYN 패킷을 추적&lt;/strong&gt;한다면 서버 접속이 안되고 있는 구간을 알 수 있지 않을까요?&lt;/p&gt;
+&lt;h3&gt;tcpdump&lt;/h3&gt;
+&lt;p&gt;저희는 클라이언트에서 서버로 요청하는 SYN 패킷을 가로채서 확인하기 위해 tcpdump라는 소프트웨어를 사용할 겁니다. tcpdump는 네트워크에서 전송되는 패킷을 가로채서 표시할 수 있게 해주는 소프트웨어로 대부분의 유닉스 계열 운영 체제에서 사용 가능합니다. 윈도우에서는 &lt;strong&gt;wireshark&lt;/strong&gt;라는 프로그램을 이용할 수 있으며 현재 진행되는 과정들은 tcpdump를 지원하는 유닉스 계열 운영 체제에 해당합니다. 설치를 제외한 나머지 과정은 MacOS에서 진행되며 대다수의 유닉스 계열에 네트워크 관련된 인터페이스가 설치되어있는 경우 tcpdump가 깔려있는 경우가 많습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;설치&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;linux&quot;&gt;&lt;pre class=&quot;language-linux&quot;&gt;&lt;code class=&quot;language-linux&quot;&gt;// Ubuntu 기준(다른 리눅스 계열도 비슷한 방식으로 설치합니다.)
+# apt install tcpdump&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;네트워크 인터페이스 조회&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;노트북을 기준으로 생각해보았을 때 노트북은 무선, 유선 2가지가 있고 이 2가지에 모두 IP를 할당 받을 수 있습니다. 노트북에는 유선 랜카드, 무선 랜카드 2개의 랜카드가 있다고 볼 수 있으며 인터넷에 연결된 랜카드를 통해 패킷이 나가게 됩니다. 그럼 제 노트북을 기준으로 알아 보도록 하겠습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# ifconfig&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/2467b1991cd16a3c660f30b069ca535f/669eb/image-7.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 70.25316455696203%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAACLElEQVR42mVT2Y7aQBDkJxJx3zcYGzBgbIxvg7EBifALUR6iTfL/LxVVR0N2tQ+lbo9narqqe0oLTYNumvDPGbz0hDC7IM6viJMEQeAjiiL4vo84juF5nuSO42C/38u/1WoFwzCwXC7R6XRQ+lqtwRt28Xbc4mfo4Ffs4s238O1awLJtIbH3e1iWBdM0BSTb7XayRqJer4d+v49Wq4XSl2oV8XSAP6GDH76N3+cA3y0DRRzBCwIhm8/n0DRNMB6PJU4mE4xGIzQaDdTrddRqNclLhq5DX5uILgXiS44kv8LyQ+iGIRVsNhupYr1eS6S82WwmUlVlxGAw+Fdht9vFbDpFEkWCU5oizzKkaSrSbNsWz47Ho+RKqspJrOv6fw8rlQqGw6F4dXRdJEmCMAgQhSFc1xXS6XQq8iiXlXA/q2SkVAWRzA284XQ6IQxD5Hn+IqFXPMg9iozEJGI1zNvtNprNpshlLNFc+nK9XoXsfr8LOCYk5D/KUtIWi4VENopRESqUyuWy3E4CIs8LZFkmUDPHw6yYUHJ5GXPK/EDIpvAA5TqOjTiOpKNcp0SCVVDi+1itVmVc3pMJIW9jh0h4Pp+lu0VRiPw0SSRXL4TeEqyaFao5/EDIRfpEMvp4uVxwu93wfD7FS+bqdbByerndbl5d/kSozTXZqBqi4uPxeBFzfIIgwOFwEGJ+s0J6+klyt9OR2yiJj51gczhGlM+clhCqyySj7zynxkUR/gUXyr4T447q/gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/2467b1991cd16a3c660f30b069ca535f/f058b/image-7.png&quot;
+        srcset=&quot;/blog/static/2467b1991cd16a3c660f30b069ca535f/c26ae/image-7.png 158w,
+/blog/static/2467b1991cd16a3c660f30b069ca535f/6bdcf/image-7.png 315w,
+/blog/static/2467b1991cd16a3c660f30b069ca535f/f058b/image-7.png 630w,
+/blog/static/2467b1991cd16a3c660f30b069ca535f/40601/image-7.png 945w,
+/blog/static/2467b1991cd16a3c660f30b069ca535f/669eb/image-7.png 1244w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;ifconfig를 입력했을 때 가장 왼쪽위에 &lt;code class=&quot;language-text&quot;&gt;:&lt;/code&gt; 왼쪽에 써져있는 것이 네트워크 인터페이스(랜카드)의 이름이며 여러 개가 나오는데 그 중 inet이 입력되어있는 곳이 ip가 부여되어 사용하고 있는 곳으로 볼 수 있습니다.(유선, 랜선 둘 다 사용하면 inet이 적혀있는 인터페이스가 2개 있을 수 있음!) 저는 en0이라는 네트워크 인터페이스명을 가지고 있고 192.168.1.84라는 IP를 가지고 있네요!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;특정 네트워크 인터페이스에서 나가는 패킷 조회&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# tcpdump -nni en0&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;위에 적힌 명령어는 en0이라는 네트워크 인터페이스를 감시해서 실시간으로 출력하겠다라는 뜻입니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;-i&lt;/code&gt; : 네트워크 인터페이스를 설정하는 옵션&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;-n&lt;/code&gt; : 한 번의 n은 IP 주소를 이름으로 변환하지 않고 두 번의 n을 입력할 경우 IP와 포트를 이름으로 변환하지 않습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/01118c42d483de183c06b94d8daa0f2c/1dbe8/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.05.12.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 33.54430379746836%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABUklEQVR42j1RSW7DMAz0O7K8wJfEjTfZohYv8lokvRRx0xTo//8wBQk0B0IeajhDjSPvPZqmgefyHm3bShERrLVI0xRJkginqhSMMciyDHEcY7fb4XA44Hg8yrnf7xH1fY91XeG8hxXxFtM8QxPBWCtGZCz6EITj21b6bGCdQ1EUYqqUwvl8RjRNE7b7HXPfYeo6jG2LOfRoiNAYwm1dEBqP2/uC3jvhFG+JiF+v19dr2IC/I95gmSZ81hkeVOBpKzyMwm9n8JGe8ONqfOkC30bhXud4Uon5FKNUCmVZwjknxaJ1XSPyzmGeZ8mPM+PTGJKsSGvBPCiYCLrWyIv81eMZzpQ3LMsC0TiO2LZNMgrDAMYhBDHhjBjzIEfDebNBmmUizj2+11qj6zq5i9hhWRZxZNL/3+Vn5HkuufDGwzCIcAg9LpeL8KqqAmmC4c21FvwHpQ30r4+VOoAAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/01118c42d483de183c06b94d8daa0f2c/f058b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.05.12.png&quot;
+        srcset=&quot;/blog/static/01118c42d483de183c06b94d8daa0f2c/c26ae/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.05.12.png 158w,
+/blog/static/01118c42d483de183c06b94d8daa0f2c/6bdcf/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.05.12.png 315w,
+/blog/static/01118c42d483de183c06b94d8daa0f2c/f058b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.05.12.png 630w,
+/blog/static/01118c42d483de183c06b94d8daa0f2c/40601/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.05.12.png 945w,
+/blog/static/01118c42d483de183c06b94d8daa0f2c/78612/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.05.12.png 1260w,
+/blog/static/01118c42d483de183c06b94d8daa0f2c/1dbe8/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.05.12.png 1374w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;실행하고 바로 취소를 눌러 캡쳐된 패킷입니다. 빨간색으로 표시된 부분을 보면 제 노트북 무선 랜카드에 적혀있는 IP인 192.168.1.84번 출발지에서 104.18.22.107 IP의 443포트인 목적지로 패킷이 나가고 있는 것을 볼 수 있습니다. 443포트는 https로 저는 현재 https로 되어있는 웹사이트를 접속해 있기 때문에 위와 같이 패킷이 나오게 되는겁니다. 그 뒤에 Flags를 볼까요? 제가 자세히 말씀드리진 않았지만 SYN, ACK와 같은 플래그들이 더 있습니다. dot(.)은 ACK Flag로 봐도 무방하며 연결 후 통신이 이루어지고 있다고 보면 좋을 것 같아요.&lt;/p&gt;
+&lt;p&gt;이렇게 출발지 IP에서 목적지 IP로 가는 패킷에 Flag가 담겨있으므로 어느 목적지 서버를 접속할 때 출발지 네트워크 인터페이스에서 SYN 패킷이 목적지 IP로 날라가는지, 그리고 서버에서도 동일하게 서버의 인터페이스에서 클라이언트가 보낸 SYN 패킷이 들어오는지 확인해보면 연결 요청에 대해서 트러블 슈팅 해볼 수 있지 않을까요?&lt;/p&gt;
+&lt;h3&gt;클라이언트에서 서버로 접속시 정상적으로 접근되는 현상&lt;/h3&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/734c5253b501d8d1ce7c6b1c6f3c133e/f98ee/image-8.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 36.075949367088604%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABCklEQVR42m1R2Y6DMAzk/3+k+xVbiV9oF/GAxFkQZIGEq9yzGq9APNSSk4xjjy8LF9n3XZQyTRPatsW6rqLE1GVZBM/zLPjwP27rExnvvu8xDAPSNEWe52fSrutQlqW8SU7Sq1gH0TiOiOMISilEUYS6rsUhyzIURXFWyrfnefJ32LTWYhdCEjiOA9O0SF4pbNuW6nzfx+PxODPHcQzXdU/MKp/PH/yWFb7vd3zdbv+ExhgJ1tqgqmoEQSBZWWGhlLTM/23bZG6caxiG0jqLoY2YyRhn8eAsrrNk8Ps9om07FIU6Z6ZNI60lSSKYfhwVk1DJ83EplGOLTMhAvk3ToB8G8SMmGf+vS/kDsasbuL9uG8gAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/734c5253b501d8d1ce7c6b1c6f3c133e/f058b/image-8.png&quot;
+        srcset=&quot;/blog/static/734c5253b501d8d1ce7c6b1c6f3c133e/c26ae/image-8.png 158w,
+/blog/static/734c5253b501d8d1ce7c6b1c6f3c133e/6bdcf/image-8.png 315w,
+/blog/static/734c5253b501d8d1ce7c6b1c6f3c133e/f058b/image-8.png 630w,
+/blog/static/734c5253b501d8d1ce7c6b1c6f3c133e/40601/image-8.png 945w,
+/blog/static/734c5253b501d8d1ce7c6b1c6f3c133e/78612/image-8.png 1260w,
+/blog/static/734c5253b501d8d1ce7c6b1c6f3c133e/f98ee/image-8.png 1808w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;현재 저는 카페에 있고 카페 무선 와이파이로 받은 IP는 192.168.1.84이고 집에 테스트를 하기 위해 열어둔 MySQL서버는 180.224.180.78번 입니다. 제 노트북인 192.168.1.84에서 MySQL Workbench로 집에 있는 180.224.180.78을 접속해보겠습니다. 접속할 때는 아래와 같이 명령어를 통해 패킷을 캡쳐해보도록 하겠습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# tcpdump -nni en0 port 33306&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;명령어에 port를 입력하는 경우 특정 포트를 선택해서 캡쳐할 수 있습니다.(집에 있는 MySQL서버는 테스트 용도로 3306 포트가 아닌 33306포트로 오픈되어있는 상태입니다.)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;클라이언트에서 확인한 tcpdump&lt;/strong&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/08ee7df693653a0af076a366ac2669cd/48ca3/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.30.04.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 52.53164556962025%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB/UlEQVR42jWS247aQBBE/S+J2MVgDLYB3z2eGV/WBoxAJNoEbVbKQ/7/CyqqZnkYGXdVn65p45i+R2UsmmGA6Xoo20BZC932SIoS+zxHXtdIqwrfX+cIdnuUWiPcx9gmKbJKYZ/lSIoCURTB+ewtftUFPlqNn2WK97rA3Vb402r8mwb8NiV+FAk+2hqH0MdnZ/CucrDvbpX0/X2zuNUF3MUCTrtycYjWYn5bL+VMuwBj6Ev9HIdovTmO2w2GYIVzHOFt4+Ga7dH5C/GMgQeznCMIIzib3U6upLsOy/UG7srHwvfl99zz4IcR5t4KM3cp2uOssApCzFxXfLPFAt9eXuF5Hhxd1ziMI66XC2qloFSFprGwxuCppWkq79T7roOqKkzTCVmaom0aJHGMIAhQliUcYwzGccTtdkPTNNBa43A4oOs6OdM0IY5jXC4X0Mtn27a43++oqgrDMAhou92K7hRFISAKdV2LyVorIuHjM6G1onEIfafTCVmWST3+SkhdgH3f43g8yiQaCGIKpZQkJIB/CaO11NhDcPI1iOnW67VoDiEUec0nkIepOXE6naSe57kMeq6FAZiM3iRNJKEAOY1pmJIAXoNNFJmMGs0E0MsVULter7IKetkThuHjo1AkjAkJJISJCeIeCcrzAkY/dkqNPefzWUDsJZhDCf8Pu6aADdjFV2wAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/08ee7df693653a0af076a366ac2669cd/f058b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.30.04.png&quot;
+        srcset=&quot;/blog/static/08ee7df693653a0af076a366ac2669cd/c26ae/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.30.04.png 158w,
+/blog/static/08ee7df693653a0af076a366ac2669cd/6bdcf/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.30.04.png 315w,
+/blog/static/08ee7df693653a0af076a366ac2669cd/f058b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.30.04.png 630w,
+/blog/static/08ee7df693653a0af076a366ac2669cd/40601/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.30.04.png 945w,
+/blog/static/08ee7df693653a0af076a366ac2669cd/48ca3/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.30.04.png 1084w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;위 사진은 클라이언트에서 캡쳐한 패킷인데 192.168.1.84에서 180.224.180.78의 33306포트로 SYN패킷이 나가는 것을 확인할 수 있습니다. 아래 S.의 경우 SYN/ACK를 표현하는 뜻이며 그 뒤에 바로 .이 나온 것을 보면 정상적으로 연결된 것을 확인해볼 수 있습니다. 그럼 반대편인 MySQL서버에서도 확인해볼까요?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;서버 네트워크 인터페이스 확인&lt;/strong&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/4a840dbe60f4c586acf498c5799b19d7/8cdda/image-9.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 44.93670886075949%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABeElEQVR42k2SSZOiQBCF+UWKgmu4KwiF0iKFa9uHPsxhlv9/fBNfxjDhIaHIIl+9pYLaez0fD33drno0Xs/G6/v1qbuv5fJcRVHoeDwqyzIr55yWy6V2u52SJNFoNNJwOLR3HMcKojhWFIb65Xb6fcz0p8z10yX6kW3tIO+9Lk2j2+2mqqqU57maptH9ftfhcNB8Ptd6vdZ2u9V4PFbQ7/dFHQonX1U6n07K96k+ylJlWWqz2eh8Pquuaxtq2cIoiiJ1Oh11u12rXq+ngEcYhialuV5tOElTYcXlcjFG13/91WplPUABm0wmVjAbDAZGLEA/DX7e7/dK09TWhXNWsMIrmCKPNR4yg1SK/wE0hrPZzJr4w8kwgRH+vF4v845g2McCWCCTYWSirpVrDNsGYAwBABhrbACEQ9iHXSsPya3/72WhsAkL0mN4sVhYiqyRCjjXhCCwgB5XpAV5B/+fcpsgwHjVsqJPD8DpdGrfeEYYAFNYRhZ4+BcCokGq6sAf8AAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/4a840dbe60f4c586acf498c5799b19d7/f058b/image-9.png&quot;
+        srcset=&quot;/blog/static/4a840dbe60f4c586acf498c5799b19d7/c26ae/image-9.png 158w,
+/blog/static/4a840dbe60f4c586acf498c5799b19d7/6bdcf/image-9.png 315w,
+/blog/static/4a840dbe60f4c586acf498c5799b19d7/f058b/image-9.png 630w,
+/blog/static/4a840dbe60f4c586acf498c5799b19d7/40601/image-9.png 945w,
+/blog/static/4a840dbe60f4c586acf498c5799b19d7/8cdda/image-9.png 1168w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+우선 MySQL 서버의 IP는 172.17.0.4이고 eth0이라는 네트워크 인터페이스를 이용하고 있습니다. 서버의 IP인 180.224.180.78도 외부 IP일 뿐 NAT가 적용되고 현재 도커로 돌린 MySQL이기 때문에 위와 같이 172.17.0.4로 나오게 됩니다. 출발지에서 보기에는 서버는 &lt;strong&gt;180.224.180.78&lt;/strong&gt; IP를 가지고 있다라고 봐주시면 될 것 같아요!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;서버에서 확인한 tcpdump&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# tcpdump -nni eth0&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/7cfef3e8c3eacbc0462007e18593120d/18539/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.44.22.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 24.68354430379747%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAABGklEQVR42h2Q21KDQBBE+SoVCOtCgAh7Y5cFkpikkqilL/7/49HwcKp6pqZ6qjsx1nK5XIgxEkLADAPL4cC0LHRKEWIkzjNpnpMLwUuWrTzmbFOsPLR4lRRSkiilmecZYwzaGC6DZaxeOeuOq9PcveVniXwEt+5ug+XY7Zjqku955L3fcfOWqzN8Rk8S48T5fGKZZ4Yw8hUcv3Hgrt+YREbInzjVkr3cEPJn9mVBLFIOVcFdtezLDde+4VgJxiIlcc4xjiNd12GtRWlN9B6nNd2uXfHOUVclzbZC9z1d21KKAikEmzxjW0pEnpOmGcng/WrY9/0a/WH66NV7j3UOpRTLsqC1oWlafAjr06Zt17ttXdMrhSwr5H+HfwOKu/9cAQ8/AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/7cfef3e8c3eacbc0462007e18593120d/f058b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.44.22.png&quot;
+        srcset=&quot;/blog/static/7cfef3e8c3eacbc0462007e18593120d/c26ae/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.44.22.png 158w,
+/blog/static/7cfef3e8c3eacbc0462007e18593120d/6bdcf/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.44.22.png 315w,
+/blog/static/7cfef3e8c3eacbc0462007e18593120d/f058b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.44.22.png 630w,
+/blog/static/7cfef3e8c3eacbc0462007e18593120d/40601/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.44.22.png 945w,
+/blog/static/7cfef3e8c3eacbc0462007e18593120d/18539/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.44.22.png 1074w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;출발지 172.17.0.1에서 172.17.0.4의 3306포트로 SYN 패킷이 들어온 것을 보실 수 있습니다. 현재 출발지 IP가 카페 외부 IP인 39.115.214.146으로 나오지 않는 이유는 현재 제가 도커를 이용해서이고 33306포트가 아닌 3306으로 나오는 이유도 도커의 외부포트 내부포트를 변경해서 입니다.&lt;/p&gt;
+&lt;p&gt;현재 저 빨간색 패킷 부분은 결국 39.115.214.146이라는 제 노트북이 저의 집에 있는 서버인 180.224.180.78의 33306포트로 접근했다 라고 생각해주시면 될 것 같아요.&lt;/p&gt;
+&lt;h3&gt;클라이언트에서 서버로 정상적으로 접근되지 않는 현상&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;1. 서버가 Down 되어있을 때&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/f277872cf92a7fdace7e0063e640172b/37c35/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.28.46.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 35.44303797468354%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABDUlEQVR42l1R7YqEMAz0/Z/jYB/kvPu390cX4VZEFN3TVkUr4vccE6nIBkKTNJlMpw4utu/76cuywBiDdV3Fp2kSZ535PM/i27adszTnHdCe4zii6zporZHn+dnDelVVEhNsmmcGAE8CWhBuTdNUALIsk5OmlJLcsm6aBkEQHMv3HfO2wRQFlO8fgGz4fT6hqxp/RQHXdQWErH7u95MZa57nnTnZ+48HilLj8+sbH7ebSOD0fY8oilA3Deq6QRzHGIYBvemRv15QSiMMQ2E3jpM8mT2cK8tSdE2SBL7vS+xYwa86Uhtu6zojgBwUVqYXKQhopeIs2bZtezB8/2FrvLS/el1A5uxjTra8v9o/qzQbjZLjRYMAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/f277872cf92a7fdace7e0063e640172b/f058b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.28.46.png&quot;
+        srcset=&quot;/blog/static/f277872cf92a7fdace7e0063e640172b/c26ae/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.28.46.png 158w,
+/blog/static/f277872cf92a7fdace7e0063e640172b/6bdcf/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.28.46.png 315w,
+/blog/static/f277872cf92a7fdace7e0063e640172b/f058b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.28.46.png 630w,
+/blog/static/f277872cf92a7fdace7e0063e640172b/40601/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.28.46.png 945w,
+/blog/static/f277872cf92a7fdace7e0063e640172b/78612/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.28.46.png 1260w,
+/blog/static/f277872cf92a7fdace7e0063e640172b/37c35/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.28.46.png 1810w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/8cfb89eaae188c9f11651442337560f9/8ae78/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.30.38.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 13.924050632911392%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAt0lEQVR42iWOO07EMBQAcx+2ixI268TP79nOx+azEgdACDq0AgHbcPlBCsU0M80067oSQiDGiJmRciaokvOMmuGcQ9WwGOn6npvDAe89ISh9f8s4jUgITN7vvimlICLElBDxmAjZbKduG/e14oYjUZXJOY5dx7Ys+NFR1oUYAsmMh1owVZqU0n71dH7kxXW868DXZlzSxOcsXGviepd5PbV8zMJPSf9tEX7PG2+nlu8SudjI89DyBxkXbHineiHRAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/8cfb89eaae188c9f11651442337560f9/f058b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.30.38.png&quot;
+        srcset=&quot;/blog/static/8cfb89eaae188c9f11651442337560f9/c26ae/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.30.38.png 158w,
+/blog/static/8cfb89eaae188c9f11651442337560f9/6bdcf/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.30.38.png 315w,
+/blog/static/8cfb89eaae188c9f11651442337560f9/f058b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.30.38.png 630w,
+/blog/static/8cfb89eaae188c9f11651442337560f9/40601/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.30.38.png 945w,
+/blog/static/8cfb89eaae188c9f11651442337560f9/8ae78/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.30.38.png 1096w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SEW는 SYN ECE CWR의 약자입니다.&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;SYN은 새로운 연결을 시작한다는 이야기이고&lt;/li&gt;
+&lt;li&gt;ECE는 Explicit Congestion Notification라는 TCP혼잡제어 기능을 사용할 수 있다고 알려주는 것 입니다.&lt;/li&gt;
+&lt;li&gt;CWR(Congestion Window Reduced)은 슬라이딩윈도우의 윈도우 사이즈를 줄여달라는 뜻입니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;결국 SEW도 SYN의 일종으로 SYN을 보냈으나 S.가 아닌 R. 연결종료가 나왔으므로 서버와 정상적으로 연결될 수 없는 것을 알 수 있습니다. 이때 클라이언트에서는 SYN을 보낸게 확인되었기 때문에 SYN을 보낸 클라이언트에서는 전혀 접속하는데 문제가 없는 것이고 서버쪽을 확인해보아야한다라고 유추할 수 있게됩니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 서버 상단의 방화벽이 막고 있을 때&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;실제로 중요한 회사 서버들의 경우 서버 앞단에 방화벽 같은 보안 장비를 두는 경우가 많습니다. 소프트웨어 단계에서의 방화벽도 있으며 하드웨어든 소프트웨어로 이루어져있든 MySQL서버 앞단에서 33306으로 들어오는 포트를 차단할 경우 외부에서는 내부에 있는 MySQL서버를 접속하지 못하는 거죠. 제가 회사를 다니며 겪었던 가장 흔한 일 중에 하나였습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/57de11a057ba8ea34a0a1990cb1cca3d/49b61/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.49.49.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 36.708860759493675%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABJElEQVR42l1RwW6DMAzN///ITtutO069cFir3TZUUqCqhCoRGhRoCwES3mSjoK2WnpzE9vOLLeZ5BiFYON9uNxhjMAwDrLXsCdM0wTm3vA8DRu//1YlARIlUSAHyXddx4fF4RFEUa0OlFNI0XUioQVFgdg5BkmjbFvf7HaZpkOc5E5zPZ5RlySoJ1IDySDHdq6rC5BzaWkNu3nD4+cZuv2dRgrqnaYbaNMjyHFEUcUBKyQhGeafTab2XSuHrc4ft6wu22w9sNu88BlHXNXccx2lRagx/m/xVayRSIkkSJvHe83scx3ymxkRyuVyQZRkejwdEGPJf896htxbWDuj7nguJQFUa1VVDa73M0Ps1HngEnixsixLGcVxBSqiYfNgywT9t+Rf9PBkiziYR8QAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/57de11a057ba8ea34a0a1990cb1cca3d/f058b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.49.49.png&quot;
+        srcset=&quot;/blog/static/57de11a057ba8ea34a0a1990cb1cca3d/c26ae/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.49.49.png 158w,
+/blog/static/57de11a057ba8ea34a0a1990cb1cca3d/6bdcf/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.49.49.png 315w,
+/blog/static/57de11a057ba8ea34a0a1990cb1cca3d/f058b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.49.49.png 630w,
+/blog/static/57de11a057ba8ea34a0a1990cb1cca3d/40601/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.49.49.png 945w,
+/blog/static/57de11a057ba8ea34a0a1990cb1cca3d/78612/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.49.49.png 1260w,
+/blog/static/57de11a057ba8ea34a0a1990cb1cca3d/49b61/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-08-19%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%207.49.49.png 1756w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;클라이언트에서의 패킷 캡쳐&lt;/strong&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/75b74fffb2527087f006706985703dc9/218a4/image-11.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 40.50632911392405%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABYlAAAWJQFJUiTwAAABGElEQVR42lWSV27EMAwFdScDkr1wb3Kv9z8LF8OEQPIh0HoUh83uOA5ZllnqupZ5nqVpGun7Xs9933Kep2oxRmnbVpIkkWVZVMMOwyDbtsl1XfL5fMSN4yhFUQgWeJqm+vivPk2TfgOoqkoBJNj3XbIs00KKslCfIwNkIOu6SghBKzFg9/ttgXmeK4zDnQKwxOFTYFmWCgHofZC2azWAjPgBktQqBMDhDghLQgpwzAoglhZ40NQ/LZtuQCBoWDQDMQIqZQ8Opy3kfV8JIZWu68R0myHtEGijQWPmJGJxAIlzZOHgBEigPaY6gvmm1fu5/23/eR5tkztx+ByzQmRWgL33GoyTR/YbUQHVomHR4hTFBy9jjBrHUr7y/B53CeANJgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/75b74fffb2527087f006706985703dc9/f058b/image-11.png&quot;
+        srcset=&quot;/blog/static/75b74fffb2527087f006706985703dc9/c26ae/image-11.png 158w,
+/blog/static/75b74fffb2527087f006706985703dc9/6bdcf/image-11.png 315w,
+/blog/static/75b74fffb2527087f006706985703dc9/f058b/image-11.png 630w,
+/blog/static/75b74fffb2527087f006706985703dc9/40601/image-11.png 945w,
+/blog/static/75b74fffb2527087f006706985703dc9/218a4/image-11.png 1052w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;180.224.180.78로 계속 SYN 패킷을 날리고 있습니다. 위에서 서버가 다운되었을 때는 찾지 못해 R. Flag가 뜨며 바로 종료되었으나 현재 서버는 다운되지 않았지만 방화벽에 의해 포트가 차단이 되어 SYN 패킷은 날라가지만 서버에서는 응답은 없는 현상이 발생되는 것 입니다. 그럼 MySQL서버는 다운되지 않았으니 클라이언트가 서버에 접속 요청을 보낼 때 패킷을 한 번 캡쳐해볼까요?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;서버에서의 패킷 캡쳐&lt;/strong&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/b9842d66b2dda10d47b4970c54eacce9/669eb/image-12.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 18.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAhElEQVR42q2MSwrEIBBEvZIRXBkSxE8iKoII7rz/KWrohgGZ9Swer7ssW6y10FrDGAO9d8w5kXPmnTjPE9d1sY0x7Pu+OSOcc+wQArTWEKUUWGvxPA+898z7vqC81srHaU8pcS/GyDNl9Ic6lJH54HEcUEpBSgmad+9Q9uX3be+IvfgPPo7SiJ8DnSQLAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/b9842d66b2dda10d47b4970c54eacce9/f058b/image-12.png&quot;
+        srcset=&quot;/blog/static/b9842d66b2dda10d47b4970c54eacce9/c26ae/image-12.png 158w,
+/blog/static/b9842d66b2dda10d47b4970c54eacce9/6bdcf/image-12.png 315w,
+/blog/static/b9842d66b2dda10d47b4970c54eacce9/f058b/image-12.png 630w,
+/blog/static/b9842d66b2dda10d47b4970c54eacce9/40601/image-12.png 945w,
+/blog/static/b9842d66b2dda10d47b4970c54eacce9/669eb/image-12.png 1244w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;예상 하셨겠지만 &lt;strong&gt;아무런 패킷을 받을 수 없었습니다&lt;/strong&gt;. 서버 상단에 있는 방화벽에서 패킷을 막고 있기 때문에 방화벽을 통과할 수 없어 이런 현상이 발생되고, 이처럼 클라이언트에서 나가는 것은 확인했는데 서버까지 안들어온다라고 하면 클라이언트에서 출발 이후 서버에게 도착하기전까지 어떤 장비나 소프트웨어에 의해 막혀있다라고 판단할 수 있는거죠.&lt;/p&gt;
+&lt;p&gt;방화벽 차단 뿐만 아니라 포트포워딩을 잘못 설정했을 때, AWS에서 보안 그룹 설정을 잘못했을 때 등 다양한 원인에 의해 발생될 수 있습니다.&lt;/p&gt;
+&lt;h3&gt;마지막으로&lt;/h3&gt;
+&lt;p&gt;클라이언트에서 서버로 접속이 안되는 경우는 사실 어디가 잘못되었다고 쉽게 특정할 수는 없습니다. 정말 다양한 원인에 의해 발생될 수 있는 문제이지만 앞에서 말씀드린 것 처럼 tcpdump를 이용한다면 네트워크 어느 구간에서 문제가 있는지 유추할 수 있어 시간을 절약할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;모든 분들이 이해하기 쉽게 작성하기 위해 자세하게 적기보다는 어떠한 원리로 트러블 슈팅할 수 있는지에 초점을 맞춰서 글을 작성했습니다. tcpdump는 실제로 활용할 수 있는 방법이 많으므로 한 번 따로 공부해보시는 것도 추천드립니다!&lt;/p&gt;
+&lt;h3&gt;번외&lt;/h3&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/blog/static/71b5452fbc96e871a61b61fff233aee8/9239a/image-13.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 29.746835443037973%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA8ElEQVR42j1RSQ6EMAzjPyBxY23Z10LZBBL//0hG9qgcoia147iptyyLdF3H6Pue5ziOMk2TaK1Z4wzDUJTWUtc166qqiCmliPm+z/DQ3LYtxUCqqlKappFhGMQYwwbUjoNBwHBn15XiQRBIkiQSx7F48zyTfJ4nSU4MTuA+TVMxZhZrLXnHcRBHDrwsS+m7Tu77lvd9/w4hsq4rHUIITujAWjoEB24hsm0bBfFcJ4ge4Pu+i4cEAtd1fUJ4FnK4LoriI0MIdxiAHAPdLtH/PI94sJtl2fcJeZ6TpJWiaBRFdOA+B2IYggCOlWilv93+AEYe1sNF/gQGAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Alt text&quot;
+        title=&quot;&quot;
+        src=&quot;/blog/static/71b5452fbc96e871a61b61fff233aee8/f058b/image-13.png&quot;
+        srcset=&quot;/blog/static/71b5452fbc96e871a61b61fff233aee8/c26ae/image-13.png 158w,
+/blog/static/71b5452fbc96e871a61b61fff233aee8/6bdcf/image-13.png 315w,
+/blog/static/71b5452fbc96e871a61b61fff233aee8/f058b/image-13.png 630w,
+/blog/static/71b5452fbc96e871a61b61fff233aee8/40601/image-13.png 945w,
+/blog/static/71b5452fbc96e871a61b61fff233aee8/9239a/image-13.png 1246w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;SpringBoot에서 JDBC를 사용하면 Hikari CP(커넥션 풀)를 이용하게되는데 이때 값을 설정하지 않으면 디폴트 값으로 웹서버와 DB서버 사이에 커넥션 풀을 10개 만들게 됩니다. 이것도 사실 데이터베이스와 웹서버가 네트워크 통신으로 이루어지기 때문에 위와 같이 패킷을 캡쳐해서 실제로 &lt;strong&gt;10번의 요청을&lt;/strong&gt; 보내는지 알 수 있게 됩니다. 위 사진에서도 SEW 즉, SYN 패킷이 10번 날아간 것을 확인해볼 수 있습니다!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[📝 프로그래머스 백엔드 데브코스 4기 PRE팀 회고록]]></title><description><![CDATA[PRE…]]></description><link>https://hchanghyeon.github.io/blog/programmers_preteam/</link><guid isPermaLink="false">https://hchanghyeon.github.io/blog/programmers_preteam/</guid><pubDate>Fri, 16 Jun 2023 03:02:03 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
     &gt;

@@ -23,6 +23,7 @@ padding: 0px 10px;
 const Background = styled.div`
     background-color: #f7f6f3;
     padding:10px 20px;
+    margin-bottom: 20px;
 
     h5 {
         margin:10px 0px;

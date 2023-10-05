@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[황창구리의 개발 블로그]]></description><link>https://hchanghyeon.github.io/blog</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 27 Sep 2023 15:02:49 GMT</lastBuildDate><item><title><![CDATA[공연 예매시 발생하는 좌석 동시성 문제 해결하기]]></title><description><![CDATA[공연 예매시 발생하는 좌석 동시성 문제 해결하기 저희 프로젝트는 인터파크와 같은 티켓 예매 사이트로써 많은 사용자가 동시에 사이트에 접근하여 예매하는 경우가 많습니다. 동시에 예매하는 것이 어떠한 문제를 일으키는 것일까요?…]]></description><link>https://hchanghyeon.github.io/blog/concurrent/</link><guid isPermaLink="false">https://hchanghyeon.github.io/blog/concurrent/</guid><pubDate>Tue, 26 Sep 2023 13:21:03 GMT</pubDate><content:encoded>&lt;h1 id=&quot;공연-예매시-발생하는-좌석-동시성-문제-해결하기&quot; style=&quot;position:relative;&quot;&gt;&lt;strong&gt;공연 예매시 발생하는 좌석 동시성 문제 해결하기&lt;/strong&gt;&lt;a href=&quot;#%EA%B3%B5%EC%97%B0-%EC%98%88%EB%A7%A4%EC%8B%9C-%EB%B0%9C%EC%83%9D%ED%95%98%EB%8A%94-%EC%A2%8C%EC%84%9D-%EB%8F%99%EC%8B%9C%EC%84%B1-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0&quot; aria-label=&quot;공연 예매시 발생하는 좌석 동시성 문제 해결하기 permalink&quot; class=&quot;custom-class after&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;20&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;20&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h1&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[황창구리의 개발 블로그]]></description><link>https://hchanghyeon.github.io/blog</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 05 Oct 2023 06:04:10 GMT</lastBuildDate><item><title><![CDATA[공연 예매시 발생하는 좌석 동시성 문제 해결하기]]></title><description><![CDATA[공연 예매시 발생하는 좌석 동시성 문제 해결하기 저희 프로젝트는 인터파크와 같은 티켓 예매 사이트로써 많은 사용자가 동시에 사이트에 접근하여 예매하는 경우가 많습니다. 동시에 예매하는 것이 어떠한 문제를 일으키는 것일까요?…]]></description><link>https://hchanghyeon.github.io/blog/concurrent/</link><guid isPermaLink="false">https://hchanghyeon.github.io/blog/concurrent/</guid><pubDate>Tue, 26 Sep 2023 13:21:03 GMT</pubDate><content:encoded>&lt;h1 id=&quot;공연-예매시-발생하는-좌석-동시성-문제-해결하기&quot; style=&quot;position:relative;&quot;&gt;&lt;strong&gt;공연 예매시 발생하는 좌석 동시성 문제 해결하기&lt;/strong&gt;&lt;a href=&quot;#%EA%B3%B5%EC%97%B0-%EC%98%88%EB%A7%A4%EC%8B%9C-%EB%B0%9C%EC%83%9D%ED%95%98%EB%8A%94-%EC%A2%8C%EC%84%9D-%EB%8F%99%EC%8B%9C%EC%84%B1-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0&quot; aria-label=&quot;공연 예매시 발생하는 좌석 동시성 문제 해결하기 permalink&quot; class=&quot;custom-class after&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;20&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;20&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;저희 프로젝트는 인터파크와 같은 티켓 예매 사이트로써 많은 사용자가 동시에 사이트에 접근하여 예매하는 경우가 많습니다. &lt;strong&gt;동시에 예매하는 것이 어떠한 문제를 일으키는 것일까요?&lt;/strong&gt;&lt;/p&gt;
 &lt;h2&gt;1. 문제&lt;/h2&gt;
 &lt;div style=&quot;background-color: #f1f1ef; padding: 10px 20px; color:black; margin-bottom:20px;&quot;&gt;
@@ -95,26 +95,26 @@
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/blog/static/7f89c1ab35a04203e58f691cf4ea9618/c58a3/4.jpg&quot;
+    href=&quot;/blog/static/ed313c9a4e23d40a798abc3c4c77f6f2/c58a3/4.jpg&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 80.37974683544303%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAQABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAQAF/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEAMQAAAB3FBqP//EABYQAAMAAAAAAAAAAAAAAAAAAAARIP/aAAgBAQABBQIc/wD/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAWEAADAAAAAAAAAAAAAAAAAAAQIDH/2gAIAQEABj8CSD//xAAbEAACAgMBAAAAAAAAAAAAAAAAAREhMUGRUf/aAAgBAQABPyGb10leOibgdaKELw//2gAMAwEAAgADAAAAELDP/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPxA//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPxA//8QAGxABAQEBAQADAAAAAAAAAAAAAREAIUFRcZH/2gAIAQEAAT8Q+tGdykM9mM6D9uB0WvwYPE31DBEAb//Z&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 80.37974683544303%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAQABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAQAF/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEAMQAAAB3FBiP//EABYQAQEBAAAAAAAAAAAAAAAAAAARIP/aAAgBAQABBQJcR//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABYQAAMAAAAAAAAAAAAAAAAAABAgMf/aAAgBAQAGPwJIP//EABsQAAIDAAMAAAAAAAAAAAAAAAABESGRMUFx/9oACAEBAAE/IZvrSV8aJuB+GBRP/9oADAMBAAIAAwAAABCwz//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8QP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8QP//EABsQAQADAQADAAAAAAAAAAAAAAEAESFBYXGR/9oACAEBAAE/EPWprYsA12odoPtwBu3wQDmnaIAoWf/Z&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;Untitled&quot;
         title=&quot;&quot;
-        src=&quot;/blog/static/7f89c1ab35a04203e58f691cf4ea9618/828fb/4.jpg&quot;
-        srcset=&quot;/blog/static/7f89c1ab35a04203e58f691cf4ea9618/ff44c/4.jpg 158w,
-/blog/static/7f89c1ab35a04203e58f691cf4ea9618/a6688/4.jpg 315w,
-/blog/static/7f89c1ab35a04203e58f691cf4ea9618/828fb/4.jpg 630w,
-/blog/static/7f89c1ab35a04203e58f691cf4ea9618/0ede0/4.jpg 945w,
-/blog/static/7f89c1ab35a04203e58f691cf4ea9618/3ac88/4.jpg 1260w,
-/blog/static/7f89c1ab35a04203e58f691cf4ea9618/c58a3/4.jpg 1500w&quot;
+        src=&quot;/blog/static/ed313c9a4e23d40a798abc3c4c77f6f2/828fb/4.jpg&quot;
+        srcset=&quot;/blog/static/ed313c9a4e23d40a798abc3c4c77f6f2/ff44c/4.jpg 158w,
+/blog/static/ed313c9a4e23d40a798abc3c4c77f6f2/a6688/4.jpg 315w,
+/blog/static/ed313c9a4e23d40a798abc3c4c77f6f2/828fb/4.jpg 630w,
+/blog/static/ed313c9a4e23d40a798abc3c4c77f6f2/0ede0/4.jpg 945w,
+/blog/static/ed313c9a4e23d40a798abc3c4c77f6f2/3ac88/4.jpg 1260w,
+/blog/static/ed313c9a4e23d40a798abc3c4c77f6f2/c58a3/4.jpg 1500w&quot;
         sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
